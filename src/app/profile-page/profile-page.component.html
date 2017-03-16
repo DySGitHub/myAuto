@@ -1,0 +1,37 @@
+<h1>
+  Welcome: <b>{{afService.displayName}}</b>
+</h1>
+
+
+
+<div class="container">
+    <h2>Here are your posts:</h2>
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div id="usercars">
+               <div *ngFor="let usercar of usercars | async">
+                    <div *ngIf="afService.email==usercar.email">
+                    <h3>Your {{ usercar.brand }}</h3>
+            <p>Brand: {{ usercar.model }}</p>
+                        <div align="center">
+                        <img [src]="usercar.url" style="max-width:400px;max-height:400px;min-height:250px;min-width:400px;box-shadow: 5px 5px 2px #888888; border-style: solid;border-width: 1px 1px 1px 1px;border-radius: 5px;">
+                            </div>
+                    <br>
+                    <div class="author">
+                        Posted by: You on {{ usercar.timestamp | date:"medium" }}
+                        <br>
+
+                            <button class="btn btn-warning btn-xs">Edit (TBA)</button>
+                            <button class="btn btn-danger btn-xs" (click)="deleteUserCar(usercar.$key)">Delete</button>
+                            <br>
+                            <br>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
