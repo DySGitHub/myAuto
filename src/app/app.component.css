@@ -1,3 +1,85 @@
 .border-left {
   border-left: solid 1px;
+    border-color: #FFFFFF;
+}
+ 
+.app-content
+{
+     padding-bottom: 3%;
+}
+
+#myAutoNav.navbar-default .navbar-brand {
+    color: rgba(255, 255, 255, 1);
+}
+#myAutoNav.navbar-default {
+    font-size: 14px;
+    background-color: rgba(181, 0, 0, 1);
+    background: -webkit-linear-gradient(top, rgba(214, 0, 0, 1) 0%, rgba(181, 0, 0, 1) 100%);
+    background: linear-gradient(to bottom, rgba(214, 0, 0, 1) 0%, rgba(181, 0, 0, 1) 100%);
+    border-width: 0px;
+    border-radius: 0px;
+}
+#myAutoNav.navbar-default .navbar-nav>li>a {
+    color: rgba(255, 255, 255, 1);
+    background-color: rgba(248, 248, 248, 0);
+    	font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
+
+}
+#myAutoNav.navbar-default .navbar-nav>li>a:hover,
+#myAutoNav.navbar-default .navbar-nav>li>a:focus {
+    color: rgba(184, 184, 184, 1);
+    background-color: rgba(248, 248, 248, 0);
+    	font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
+
+}
+#myAutoNav.navbar-default .navbar-nav>.active>a,
+#myAutoNav.navbar-default .navbar-nav>.active>a:hover,
+#myAutoNav.navbar-default .navbar-nav>.active>a:focus {
+    color: rgba(41, 41, 41, 1);
+    background-color: rgba(191, 191, 191, 1);
+}
+#myAutoNav.navbar-default .navbar-toggle {
+    	font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
+
+    border-color: #bfbfbf;
+}
+#myAutoNav.navbar-default .navbar-toggle:hover,
+#myAutoNav.navbar-default .navbar-toggle:focus {
+    background-color: #bfbfbf;
+}
+#myAutoNav.navbar-default .navbar-toggle .icon-bar {
+    background-color: #bfbfbf;
+}
+#myAutoNav.navbar-default .navbar-toggle:hover .icon-bar,
+#myAutoNav.navbar-default .navbar-toggle:focus .icon-bar {
+    background-color: #b50000;
+}
+
+footer{
+        	font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
+
+    border: 1px solid black;
+  border-top-color: black;
+    border-left-color: transparent;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+  font-size: 12pt;
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  text-align: right;
+  /*background-color: #EEE;*/
+    background-image:
+linear-gradient(
+      #EEE, #DDD
+    );
+}
+
+
+footer a
+{
+        	font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
+
+  color: rgba(181, 0, 0, 1);
 }

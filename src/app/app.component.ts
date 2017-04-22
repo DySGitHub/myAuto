@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { AF } from "../providers/af";
 import { Router } from "@angular/router";
+import { RouterModule } from '@angular/router';
+
+
 
 @Component({
   selector: 'app-root',
@@ -8,22 +11,20 @@ import { Router } from "@angular/router";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+      public isCollapsed = true;
+
   public isLoggedIn: boolean;
 
   constructor(public afService: AF, private router: Router) {
-    // This asynchronously checks if our user is logged it and will automatically
-    // redirect them to the Login page when the status changes.
-    // This is just a small thing that Firebase does that makes it easy to use.
+   
     this.afService.af.auth.subscribe(
       (auth) => {
         if(auth == null) {
           console.log("Not Logged in.");
 
-          this.isLoggedIn = false;
         }
         else {
           console.log("Successfully Logged in.");
-          // Set the Display Name and Email so we can attribute posts to them
           if(auth.google) {
               
             this.afService.displayName = auth.google.displayName;
@@ -40,10 +41,13 @@ export class AppComponent {
   });
             this.afService.email = auth.auth.email;
             this.afService.userid = auth.auth.uid;
+              console.log(this.afService.userid);
+              
           }
 
           this.isLoggedIn = true;
-          //this.router.navigate(['/garage']);
+            
+
         }
       }
     );
@@ -53,5 +57,18 @@ export class AppComponent {
     this.afService.logout();
     this.router.navigate(['/login']);
 
+
   }
+
+  g2garage() {
+    this.router.navigate(['/garage']);
+  }
+
+topFunction()
+{
+    window.scrollTo(0,0);
+}
+
+
+
 }

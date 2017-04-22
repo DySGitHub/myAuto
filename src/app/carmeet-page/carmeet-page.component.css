@@ -1,6 +1,6 @@
 input[type='file']{
   font-size:25px;
-	font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
+font-family: inherit;
     
 }
 
@@ -11,14 +11,18 @@ input[type='file'].button{
 
 #usercars {
     background-color: #EEEEEE !important;
-     
+
 }
 
 #usercar
 {
  border-bottom: 10px solid white;
-    
+    border-radius: 5px;
 }
+.author {
+    font-size: 10px;
+}
+
 
 #comments
 {
@@ -26,19 +30,10 @@ input[type='file'].button{
     
 }
 
-label {
-  display: block;
-}
-
-.author {
-    font-size: 10px;
-}
 
 .usercar-text {
     display: block;
     padding: 9.5px;
-    	font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
-
     margin: 0 0 10px;
     font-size: 13px;
     line-height: 1.42857143;
@@ -53,7 +48,7 @@ label {
 }
 p {
     font-size: 16px;
-    	font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
+      	font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
 
 }
 
@@ -64,7 +59,18 @@ h1, h2, h3, h4, h5, h6, small
   
 }
 
+.pac-container {
+    background-color: #FFF;
+    z-index: 20;
+    position: fixed;
+    display: inline-block;
+    float: left;
+}
 
+
+label {
+  display: block;
+}
 
 
 .highlight {
@@ -77,10 +83,31 @@ h1, h2, h3, h4, h5, h6, small
 
 }
 
+
+
 .btn
 {border-radius: 0px;
     	font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
 
     box-shadow: 2px 2px 1px grey;
 }
+
+
+#carmeets {
+    background-color: #EEEEEE !important;
+     
+}
+
+#carmeet
+{
+ border-bottom: 10px solid white;
+    
+}
+.author {
+    font-size: 10px;
+}
+
+
+
+
 

@@ -12,52 +12,96 @@ import 'rxjs/add/operator/mergeMap';
   templateUrl: './profile-page.component.html',
   styleUrls: ['./profile-page.component.css']
 })
-export class ProfilePageComponent implements OnInit/*,AfterViewChecked*/ {
-  //@ViewChild('scrollMe') private myScrollContainer: ElementRef;
+export class ProfilePageComponent implements OnInit {
   public newUserCar: string;
     public newUserCarModel: string;
+    public newUserCarComment: string;
   public usercars: FirebaseListObservable<any[]>;
+    public comments: FirebaseListObservable<any[]>;
+
+    public userlikedcars: FirebaseListObservable<any[]>;
+    public oldBrand: string;
+    
+    public oldModel: string;
+    public oldSale: string;
+    public oldPrice: string;
+  public isCollapsed:boolean = true;
+
+    
 
   constructor(public afService: AF) {
     this.usercars = this.afService.usercars;
+    this.comments = this.afService.comments;
+ 
   }
 
   ngOnInit() {}
 
-  /*ngAfterViewChecked() {
-    this.scrollToBottom();
-  }*/
 
-  /*scrollToBottom(): void {
-    try {
-      this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
-    } catch(err) { }
-  }*/
-
-  sendUserCar(){
-    this.afService.sendUserCar(this.newUserCar, this.newUserCarModel);
-    this.newUserCar = '';
-      this.newUserCarModel = '';
+    
+        
+       startedit(usercarBrand: string, usercarModel: string, usercarSale: string, usercarPrice:string)
+    {
+    this.oldBrand = usercarBrand;
+    this.oldModel = usercarModel;
+    this.oldSale = usercarSale;
+    this.oldPrice = usercarPrice;
+        console.log("t3:" + this.oldBrand + this.oldModel + this.oldSale + this.oldPrice)
+    }
+    
+public collapsed(event:any):void {
+    console.log(event);
+  }
+ 
+  public expanded(event:any):void {
+    console.log(event);
   }
     
         
   deleteUserCar(usercarKey: string) {
         this.afService.deleteUserCar(usercarKey);
       }
-  
+    
+     editUserCar(usercarKey: string, newUserCar, newUserCarModel, newUserCarSale, newUserCarPrice) {
+        this.afService.editUserCar(usercarKey, newUserCar, newUserCarModel, newUserCarSale, newUserCarPrice);
+       
+      }
+    
+        //Load Liked Cars Function
 
+    loadlikedcars()
+         {
+         this.userlikedcars = this.afService.af.database.list('registeredUsers/' + this.afService.userid + '/LikedCars/', {
+    query: {
+    }}).map((array) => array.reverse()) as FirebaseListObservable<any[]>;
+          }
+    
+    
+        //Unlike Car Function
 
- /* isYou(email) {
-    if(email == this.afService.email)
-      return true;
-    else
-      return false;
+               uncl(likedcarKey: string) {
+           
+                 this.afService.uncl(likedcarKey);
+                
+                
+        
+      }
+    
+    
+         sendUserCarComment(usercarKey: string){
+    this.afService.sendUserCarComment(usercarKey, this.newUserCarComment);
+    this.newUserCarComment = '';
   }
+    
+    
+    commentClear()
+    {
+            this.newUserCarComment = '';
 
-  isMe(email) {
-    if(email == this.afService.email)
-      return false;
-    else
-      return true;
-  }*/
+    }
+    
+               deleteUserCarComment(usercarCommentKey: string) {
+        this.afService.deleteUserCarComment(usercarCommentKey);
+      }  
+
 }

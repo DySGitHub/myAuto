@@ -1,0 +1,103 @@
+import { Component,  ElementRef, NgZone, OnInit, ViewChild  } from '@angular/core';
+import {FirebaseService} from '../../services/firebase.service';
+import {Router} from '@angular/router';
+import { FormControl } from "@angular/forms";
+import { ReactiveFormsModule } from '@angular/forms';
+
+import {  AgmCoreModule, MapsAPILoader } from 'angular2-google-maps/core';
+declare var google: any;
+
+
+@Component({
+  selector: 'app-addadvert',
+    styles: [`
+    .sebm-google-map-container {
+      height: 300px;
+    }
+  `],
+  templateUrl: './addadvert.component.html',
+  styleUrls: ['./addadvert.component.css']
+})
+export class AddadvertComponent implements OnInit {
+   
+    public latitude: number;
+  public longitude: number;
+  public searchControl: FormControl;
+    public searchControl2: FormControl;
+  public zoom: number;
+  image:any;
+  goingTo:any;
+  comingFrom:any;
+  noOfSeats:any;
+    @ViewChild("search")
+  public searchElementRef:ElementRef;
+      public searchElementRef2: ElementRef;
+
+    
+     
+    
+        constructor(
+	  private firebaseService:FirebaseService,
+	  private router:Router,
+             private _loader: MapsAPILoader,
+      private _zone: NgZone
+     
+  
+  ) { }
+
+   ngOnInit(): void {
+    this.autocomplete();
+  }
+
+ public address : Object;
+       getAddress(place:Object) {       
+           this.address = place['formatted_address'];
+           var location = place['geometry']['location'];
+           var lat =  location.lat();
+           var lng = location.lng();
+           console.log("Address Object", place);
+       }
+    
+    
+ autocomplete() {
+    this._loader.load().then(() => {
+        var autocomplete = new google.maps.places.Autocomplete(document.getElementById("autocompleteInput"), {});
+        google.maps.event.addListener(autocomplete, 'place_changed', () => {
+            this._zone.run(() => {
+              var place = autocomplete.getPlace();
+              
+              
+              
+             
+              
+              console.log(place);
+            });
+        });
+    });
+  }
+onAddSubmit(){
+    this._loader.load().then(() => {
+        var autocomplete = new google.maps.places.Autocomplete(document.getElementById("autocompleteInput"), {});
+        google.maps.event.addListener(autocomplete, 'place_changed', () => {
+            this._zone.run(() => {
+              var place = autocomplete.getPlace();
+              
+              let listing = {
+		image: this.image,
+		comingFrom: place,
+		noOfSeats: this.noOfSeats,
+		goingTo: this.goingTo,
+	}
+    
+	
+	this.firebaseService.addListing(listing);
+	this.router.navigate(['adverts']);
+ console.log(place);
+            });
+        });
+    });
+    
+}
+    
+    
+}

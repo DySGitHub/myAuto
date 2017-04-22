@@ -1,37 +1,238 @@
-<h1>
-  Welcome: <b>{{afService.displayName}}</b>
-</h1>
-
-
-
 <div class="container">
-    <h2>Here are your posts:</h2>
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div id="usercars">
-               <div *ngFor="let usercar of usercars | async">
+        <div class="col-md-10 col-md-offset-1">
+            <h1><b>myAuto</b> Account</h1>
+            <h2>Welcome: {{this.afService.displayName}}</h2>
+            <div id="user">
+                <div id="usercar" *ngFor="let usercar of usercars | async ">
+                    <!-- User Posts -->
                     <div *ngIf="afService.email==usercar.email">
-                    <h3>Your {{ usercar.brand }}</h3>
-            <p>Brand: {{ usercar.model }}</p>
+                        <h3>{{ usercar.displayName }}'s {{ usercar.brand }}</h3>
                         <div align="center">
-                        <img [src]="usercar.url" style="max-width:400px;max-height:400px;min-height:250px;min-width:400px;box-shadow: 5px 5px 2px #888888; border-style: solid;border-width: 1px 1px 1px 1px;border-radius: 5px;">
-                            </div>
-                    <br>
-                    <div class="author">
-                        Posted by: You on {{ usercar.timestamp | date:"medium" }}
+                            <img [src]="usercar.url" style="width:60%; box-shadow: 5px 5px 2px #888888; border-style: solid;border-width: 1px 1px 1px 1px;">
+                        </div>
                         <br>
 
-                            <button class="btn btn-warning btn-xs">Edit (TBA)</button>
-                            <button class="btn btn-danger btn-xs" (click)="deleteUserCar(usercar.$key)">Delete</button>
-                            <br>
-                            <br>
+                        <p>Brand: {{ usercar.brand }}</p>
+                        <p>Model: {{ usercar.model }}</p>
+                        <p>Likes: {{usercar.likes}}</p>
+                        <p>{{usercar.sale}}</p>
+                        <div *ngIf="usercar.price>0">
+                            <p>{{usercar.price | currency:'EUR':true:'1.2-2'}}</p>
                         </div>
 
+                        <div class="author">
+                            Posted by: {{ usercar.displayName }} on {{ usercar.timestamp | date:"medium" }}
+                            <br>
+
+
+
+                        </div>
+
+                        <br>
+
+
+
+
+                        <div *ngIf="afService.email==usercar.email || afService.email=='admin@myauto.site'">
+
+                            <button class="btn btn-warning btn-xs" (click)="editModal.show(); startedit(usercar.brand, usercar.model, usercar.sale, usercar.price);">Edit</button>
+                            <div bsModal #editModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-md">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title pull-left">Edit Confirmation?</h4>
+                                            <button type="button" class="close pull-right" aria-label="Close" (click)="editModal.hide()">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <figure class="highlight">
+
+                                                <h3>Brand:</h3>
+                                                <select [(ngModel)]="oldBrand">
+                                                    <option value="Audi">Audi</option>
+                                                    <option value="Alfa Romeo">Alfa Romeo</option>
+                                                    <option value="Aston Martin">Aston Martin</option>
+                                                    <option value="Bentley">Bentley</option>
+                                                    <option value="BMW">BMW</option>
+                                                    <option value="Buick">Buick</option>
+                                                    <option value="Bugatti">Bugatti</option>
+                                                    <option value="Cadillac">Cadillac</option>
+                                                    <option value="Chevrolet">Chevrolet</option>
+                                                    <option value="Chrysler">Chrysler</option>
+                                                    <option value="Citroën">Citroën</option>
+                                                    <option value="Dodge">Dodge</option>
+                                                    <option value="Ferrari">Ferrari</option>
+                                                    <option value="Fiat">Fiat</option>
+                                                    <option value="Ford">Ford</option>
+                                                    <option value="Holden">Holden</option>
+                                                    <option value="Honda">Honda</option>
+                                                    <option value="Hyundai">Hyundai</option>
+                                                    <option value="Jaguar">Jaguar</option>
+                                                    <option value="Jeep">Jeep</option>
+                                                    <option value="Kia">Kia</option>
+                                                    <option value="Land Rover">Land Rover</option>
+                                                    <option value="Lamborghini">Lamborghini</option>
+                                                    <option value="Lexus">Lexus</option>
+                                                    <option value="Lincoln">Lincoln</option>
+                                                    <option value="Lotus">Lotus</option>
+                                                    <option value="Maserati">Maserati</option>
+                                                    <option value="Mazda">Mazda</option>
+                                                    <option value="McLaren">McLaren</option>
+                                                    <option value="Mercedes">Mercedes</option>
+                                                    <option value="Mitsubishi">Mitsubishi</option>
+                                                    <option value="Nissan">Nissan</option>
+                                                    <option value="Opel">Opel</option>
+                                                    <option value="Peugeot">Peugeot</option>
+                                                    <option value="Plymouth">Plymouth</option>
+                                                    <option value="Pontiac">Pontiac</option>
+                                                    <option value="Porsche">Porsche</option>
+                                                    <option value="Renault">Renault</option>
+                                                    <option value="Rolls-Royce">Rolls-Royce</option>
+                                                    <option value="SEAT">SEAT</option>
+                                                    <option value="Škoda">Škoda</option>
+                                                    <option value="Smart">Smart</option>
+                                                    <option value="Subaru">Subaru</option>
+                                                    <option value="Suzuki">Suzuki</option>
+                                                    <option value="Toyota">Toyota</option>
+                                                    <option value="Tesla">Tesla</option>
+                                                    <option value="Volkswagen">Volkswagen</option>
+                                                    <option value="Volvo">Volvo</option>
+                                                    <option value="Other">Other...</option>
+                                                </select>
+                                                <h3>Model</h3>
+                                                <input type="textarea" class="car-model" [(ngModel)]="oldModel">
+                                                <br>
+
+                                                <h3>Open to Offers?</h3>
+                                                <select [(ngModel)]="oldSale">
+                                                    <option value="Not Open to Offers">Not Open to Offers</option>
+                                                    <option value="Is Open to Offers">Is Open to Offers</option>
+
+
+                                                </select>
+                                                <br>
+
+                                                <div *ngIf="oldSale=='Is Open to Offers'">
+                                                    <br>
+                                                    <h3>Price</h3>
+                                                    <input type="number" step="any" [(ngModel)]="oldPrice" />
+                                                </div>
+                                                <br>
+                                                <button class="btn btn-danger btn-xs" (click)="editModal.hide()">Cancel</button>
+
+                                                <button class="btn btn-warning btn-xs" (click)="editUserCar(usercar.$key, oldBrand, oldModel, oldSale, oldPrice)">Confirm</button>
+
+                                            </figure>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <a class="btn btn-xs btn-danger" (click)="delModal.show()"><span class="glyphicon glyphicon-trash"></span> Delete</a>
+
+                            <div bsModal #delModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-sm">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title pull-left">Delete Confirmation?</h4>
+                                            <button type="button" class="close pull-right" aria-label="Close" (click)="delModal.hide()">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <h4>{{afService.displayName}} You Are Deleting:</h4>
+                                            <h4>{{usercar.brand}}</h4>
+                                            <h4>{{usercar.model}}</h4>
+
+                                            <button class="btn btn-danger btn-xs" (click)="deleteUserCar(usercar.$key)">Confirm Deletion</button>
+                                            <button class="btn btn-warning btn-xs" (click)="delModal.hide()">Cancel</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+
+
+
+
+
+
+                        <button class="btn btn-info btn-xs" (click)="usercar.showcomment = !usercar.showcomment">Show/Hide Comments</button>
+                        <div *ngIf="usercar.showcomment">
+                        <br> 
+                        <div id="comments" *ngFor="let comment of comments | async">
+                            <div *ngIf="usercar.$key==comment.postid">
+                                {{comment.comment}}
+                                <div class="author">
+                                    {{comment.displayName}} @ {{comment.timestamp | date:"medium"}}
+                                    <br> <b (click)="delcomModal.show()" *ngIf="afService.email==comment.email || afService.email=='admin@myauto.site'" style="cursor: pointer;">Remove</b>
+                                </div>
+                                <div bsModal #delcomModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-sm">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title pull-left">Delete Comment?</h4>
+                                                <button type="button" class="close pull-right" aria-label="Close" (click)="delcomModal.hide()">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <h4>{{afService.displayName}} You Are Deleting:</h4>
+                                                <h4>Comment: {{comment.comment}}</h4>
+                                                <button class="btn btn-danger btn-xs" (click)="deleteUserCarComment(comment.$key);">Confirm Deletion</button>
+                                                <button class="btn btn-warning btn-xs" (click)="delcomModal.hide()">Cancel</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <br>
+                        <div *ngIf="afService.displayName!=null">
+
+                            <input type="textarea" placeholder="Enter A Comment..." class="car-model" [(ngModel)]="newUserCarComment">
+                            <button class="btn btn-primary btn-xs" (click)="sendUserCarComment(usercar.$key)">Comment</button>
+                            <button class="btn btn-danger btn-xs" (click)="commentClear()">Cancel</button>
+                        </div>
+                    </div>
                     </div>
                 </div>
+                <!-- Show Liked Cars -->
+                <button class="btn btn-info btn-xs" (click)="loadlikedcars(); isCollapsed = !isCollapsed;">Show Your Liked Cars</button>
+                <div (collapsed)="collapsed($event)" (expanded)="expanded($event)" [collapse]="isCollapsed" class="card card-block card-header">
+                    <div *ngFor="let car of userlikedcars | async">
+                        <h3>{{ car.displayName }}'s {{ car.brand }}</h3>
+                        <div align="center">
+                            <img [src]="car.url" style="width:60%; box-shadow: 5px 5px 2px #888888; border-style: solid;border-width: 1px 1px 1px 1px;">
+                        </div>
+                        <br>
 
+                        <p>Brand:{{car.brand}}</p>
+                        <p>Model:{{car.model}}</p>
+                        <p>{{car.sale}}</p>
+                        <div *ngIf="car.price>0">
+                            <p>{{car.price | currency:'EUR':true:'1.2-2'}}</p>
+                        </div>
+
+                        <a class="btn btn-xs btn-danger" (click)="uncl(car.$key)"><span class="glyphicon glyphicon-thumbs-down"></span> Unlike {{car.brand}}</a>
+                    </div>
+
+                    <br>
+                    <br>
+
+
+                </div>
             </div>
 
         </div>
     </div>
-</div>

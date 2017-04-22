@@ -1,29 +1,31 @@
-
 <div *ngIf="error" class="alert alert-warning" role="alert">
-  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-  <span class="sr-only">Error:</span>
-  {{error}}
+    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+    <!-- Error -->
+    <span class="sr-only">Error:</span> {{error}}
 </div>
 
 <div class="modal-dialog">
-  <div class="loginmodal-container">
-    <h1>Login to Your Account</h1><br>
+    <h1><b>myAuto</b> Login</h1>
+    <div class="login-container">
+        <!-- Email Login -->
+        <form class="form-signin" (submit)="loginWithEmail($event, email.value, password.value)">
+            <label for="email" class="sr-only">Email address</label>
+            <input #email type="email" id="email" class="form-control" placeholder="Email address">
+            <br>
+            <label for="password" class="sr-only">Password</label>
+            <input #password type="password" id="password" class="form-control" placeholder="Password" required="">
+            <br>
+            <button class="btn btn-md btn-danger btn-block" style="background-color: rgba(181, 0, 0, 1);" type="submit">Sign in</button>
+        </form>
+        <hr>
+        <div class="col-md-12 text-center">
+            <h6>-OR-</h6>
+             <!-- Google Sign In -->
 
-    <form class="form-signin" (submit)="loginWithEmail($event, email.value, password.value)">
-      <label for="email" class="sr-only">Email address</label>
-      <input #email type="email" id="email" class="form-control" placeholder="Email address">
-      <label for="password" class="sr-only">Password</label>
-      <input #password type="password" id="password" class="form-control" placeholder="Password" required="">
-      <br>
-      <button class="btn btn-md btn-primary btn-block" type="submit">Sign in</button>
-    </form>
-    <hr>
-<div class="col-md-12 text-center"> 
+            <input type="image" src="https://firebasestorage.googleapis.com/v0/b/logintest-a1285.appspot.com/o/googlesignin.png?alt=media&token=3fa70706-4377-4a3b-a67c-5feefe92bf54" (click)="loginWithGoogle()" style="width:40%;" />
 
-    <button class="btn-danger btn-sm" (click)="loginWithGoogle()">Login With Google</button>
-      </div>
-      <br>
-    <hr>
-    <a [routerLink]="['/register']" style="cursor: pointer;">Register Now</a>
-  </div>
+        </div>
+        <br>
+        <hr> Don't Have An Account? <a [routerLink]="['/register']" style="cursor: pointer;"><b>Register Now</b></a>
+    </div>
 </div>

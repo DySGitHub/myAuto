@@ -11,6 +11,7 @@ export class RegistrationPageComponent {
   public error: any;
 
   constructor(private afService: AF, private router: Router) { }
+    //Register Function
 
   register(event, name, email, password) {
     event.preventDefault();

@@ -1,0 +1,203 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            <h1><b>myAuto</b> News</h1>
+
+            <figure class="highlight">
+                <div *ngIf="afService.email=='admin@myauto.site'">
+                    <!-- Add only for Admin -->
+
+                    <a (click)="lgModal.show()" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Add News Article</a> </div>
+                <div bsModal #lgModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-md">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title pull-left">Add News Article</h4>
+                                <button type="button" class="close pull-right" aria-label="Close" (click)="lgModal.hide()">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <h3>Category:</h3>
+                                <select [(ngModel)]="newNewsCategory">
+                                    <option value="News">News</option>
+                                    <option value="Review">Review</option>
+                                    <option value="Preview">Preview</option>
+                                    <option value="Interview">Interview</option>
+                                </select>
+                                <br>
+                                <h3>Subject</h3>
+                                <input type="textarea" class="news-subject" [(ngModel)]="newNewsSubject">
+                                <br>
+                                <h3>Content</h3>
+                                <textarea rows="4" cols="50" [(ngModel)]="newNewsContent">
+                                </textarea>
+                                <br>
+                                <h3>Article Image</h3>
+                                <form ngNoForm>
+                                    <input id="file" name="file" type="file" accept="image/*">
+                                </form>
+
+                                <br>
+                                <button class="btn btn-primary btn-sm" (click)="sendNews(); lgModal.hide()">Post</button>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <h3>Search News</h3>
+                <input type="text" [(ngModel)]="newsPostsFilter.subject" placeholder="Search Subject">
+                <label>News Category?</label>
+                <select [(ngModel)]="newsPostsFilter.category">
+                    <option value="News">News</option>
+                    <option value="Review">Review</option>
+                    <option value="Preview">Preview</option>
+                    <option value="Interview">Interview</option>
+                    <option value="">Any</option>
+
+                </select>
+            </figure>
+
+
+
+            <div id="news">
+                <div id="newsitem" *ngFor="let newsitem of news | async | filterBy: newsPostsFilter | paginate: { itemsPerPage: 20, currentPage: p }; let i = index;">
+                    <h3>{{newsitem.subject}}</h3>
+                    <p>{{newsitem.category}}</p>
+                    <div align="center">
+                        <img [src]="newsitem.url" style="width:60%; box-shadow: 5px 5px 2px #888888; border-style: solid;border-width: 1px 1px 1px 1px;">
+                    </div>
+                    <br>
+
+                    <div class="author">
+                        Posted by: {{ newsitem.displayName }} on {{ newsitem.timestamp | date:"medium" }}
+                    </div>
+                    <br>
+                    <!-- Modal for News Item -->
+
+                    <a class="btn btn-xs btn-info" (click)="RMModal.show()"><span class="glyphicon glyphicon-fullscreen"></span> Read More..</a>
+                    <div bsModal #RMModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title pull-left">{{newsitem.subject}} <br> {{newsitem.category}}</h4>
+                                    <button type="button" class="close pull-right" aria-label="Close" (click)="RMModal.hide()">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div align="center">
+                                        <img [src]="newsitem.url" style="width:60%; box-shadow: 5px 5px 2px #888888; border-style: solid;border-width: 1px 1px 1px 1px;">
+                                    </div>
+                                    <br>
+                                    <div style="white-space:pre-wrap; width:85%; margin-left:7.5%;">{{newsitem.content}}</div>
+
+
+                                    <h2>Comments on {{newsitem.subject}}</h2>
+                                    <div id="comments" *ngFor="let comment of newscomments | async">
+                                        <div *ngIf="newsitem.$key==comment.postid">
+                                            {{comment.comment}}
+                                            <div class="author">
+                                                {{comment.displayName}} @ {{comment.timestamp | date:"medium"}}
+                                                <br> <b (click)="deleteNewsComment(comment.$key);" *ngIf="afService.email==comment.email || afService.email=='admin@myauto.site'" style="cursor: pointer;">Remove</b>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <br>
+                                    <div *ngIf="afService.displayName!=null">
+                                        <input type="textarea" class="car-model" [(ngModel)]="newNewsItemComment">
+                                        <button class="btn btn-primary btn-xs" (click)="sendNewsItemComment(newsitem.$key)">Comment</button>
+                                        <button class="btn btn-danger btn-xs" (click)="commentClear()">Clear</button>
+                                    </div>
+                                    <button class="btn btn-warning btn-xs" (click)="RMModal.hide()">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div *ngIf="afService.email=='admin@myauto.site'">
+                        <a class="btn btn-xs btn-danger" (click)="delModal.show()"><span class="glyphicon glyphicon-trash"></span> Delete</a>
+
+                        <div bsModal #delModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-sm">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title pull-left">Delete Confirmation?</h4>
+                                        <button type="button" class="close pull-right" aria-label="Close" (click)="delModal.hide()">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h4>{{afService.displayName}} You Are Deleting:</h4>
+                                        <h3>{{newsitem.subject}}</h3>
+                                        <p>{{newsitem.category}}</p>
+
+                                        <button class="btn btn-danger btn-xs" (click)="deleteNewsItem(newsitem.$key)">Confirm Deletion</button>
+                                        <button class="btn btn-warning btn-xs" (click)="delModal.hide()">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <button class="btn btn-warning btn-xs" (click)="editModal.show(); startedit(newsitem.category, newsitem.subject, newsitem.content);">Edit</button>
+
+                        <div bsModal #editModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-md">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title pull-left">Edit Confirmation?</h4>
+                                        <button type="button" class="close pull-right" aria-label="Close" (click)="delModal.hide()">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h3>Category:</h3>
+                                        <select [(ngModel)]="oldCategory">
+                                            <option value="News">News</option>
+                                            <option value="Review">Review</option>
+                                            <option value="Preview">Preview</option>
+                                            <option value="Interview">Interview</option>
+                                        </select>
+                                        <br>
+                                        <h3>Subject</h3>
+                                        <input type="textarea" class="news-subject" placeholder="{{newsitem.subject}}" [(ngModel)]="oldSubject">
+                                        <br>
+                                        <h3>Content</h3>
+                                        <textarea rows="4" cols="50" [(ngModel)]="oldContent">
+                                        </textarea>
+
+                                        <button class="btn btn-danger btn-xs" (click)="editNewsItem(newsitem.$key, oldCategory, oldSubject, oldContent)">Confirm Edit</button>
+                                        <button class="btn btn-warning btn-xs" (click)="editModal.hide(); canceledit(newsitem.$key);">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <br>
+                    </div>
+
+                </div>
+
+
+
+            </div>
+            <pagination-controls align="center" (pageChange)="p = $event"></pagination-controls>
+        </div>
+
+
+
+
+
+
+    </div>
+
+
+
+
+
+</div>

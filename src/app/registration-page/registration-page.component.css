@@ -1,18 +1,69 @@
 /****** LOGIN MODAL ******/
-.registermodal-container {
+.register-container {
   padding: 30px;
-  max-width: 350px;
-  width: 100% !important;
   background-color: #F7F7F7;
   margin: 0 auto;
   border-radius: 2px;
   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
   overflow: hidden;
-  font-family: Helvetica, Arial, "Lucida Grande", sans-serif;
+    	font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
 }
 
-.registermodal-container h1 {
+.register-container h1 {
   text-align: center;
   font-size: 1.8em;
-  font-family: Helvetica, Arial, "Lucida Grande", sans-serif;
+    	font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
+}
+
+.registermodal-submit {
+  /* border: 1px solid #3079ed; */
+  border: 0px;
+  color: #fff;
+    border-radius: 0px;
+  text-shadow: 0 1px rgba(0,0,0,0.1);
+  background-color: #4d90fe;
+  padding: 11px 0px;
+    	font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
+  font-size: 21px;
+   background-image: -webkit-gradient(linear, 0 0, 0 100%,   from(#4d90fe), to(#4787ed));
+}
+
+.registermodal-submit:hover {
+  /* border: 1px solid #2f5bb7; */
+  border: 0px;
+  text-shadow: 0 1px rgba(0,0,0,0.3);
+  background-color: #357ae8;
+  /* background-image: -webkit-gradient(linear, 0 0, 0 100%,   from(#4d90fe), to(#357ae8)); */
+}
+
+
+.register-container a {
+  text-decoration: none;
+  color: rgba(181, 0, 0, 1);
+  font-weight: 400;
+  text-align: center;
+  display: inline-block;
+
+}
+
+.btn
+{border-radius: 0px;
+    	font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
+border-color:rgba(140, 0, 0, 1);
+;
+    box-shadow: 2px 2px 1px grey;
+}
+
+
+h1, h2, h3, h4, h5, h6
+{
+  	font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
+  
+}
+
+.form-control
+{border-radius: 0px;
+    	font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
+
+    box-shadow: 2px 2px 1px grey;
 }

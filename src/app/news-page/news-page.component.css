@@ -1,6 +1,6 @@
 input[type='file']{
   font-size:25px;
-	font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
+font-family: inherit;
     
 }
 
@@ -11,25 +11,14 @@ input[type='file'].button{
 
 #usercars {
     background-color: #EEEEEE !important;
-     
+
 }
 
 #usercar
 {
  border-bottom: 10px solid white;
-    
+    border-radius: 5px;
 }
-
-#comments
-{
- background-color: #cccccc !important;
-    
-}
-
-label {
-  display: block;
-}
-
 .author {
     font-size: 10px;
 }
@@ -37,8 +26,6 @@ label {
 .usercar-text {
     display: block;
     padding: 9.5px;
-    	font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
-
     margin: 0 0 10px;
     font-size: 13px;
     line-height: 1.42857143;
@@ -53,7 +40,7 @@ label {
 }
 p {
     font-size: 16px;
-    	font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
+      	font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
 
 }
 
@@ -63,6 +50,15 @@ h1, h2, h3, h4, h5, h6, small
   	font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
   
 }
+
+.pac-container {
+    background-color: #FFF;
+    z-index: 20;
+    position: fixed;
+    display: inline-block;
+    float: left;
+}
+
 
 
 
@@ -84,3 +80,40 @@ h1, h2, h3, h4, h5, h6, small
     box-shadow: 2px 2px 1px grey;
 }
 
+
+
+#news {
+    background-color: #EEEEEE !important;
+     
+}
+
+#newsitem
+{
+ border-bottom: 10px solid white;
+    
+}
+.author {
+    font-size: 10px;
+}
+
+label {
+  display: block;
+}
+
+.newsitem-text {
+    display: block;
+    padding: 9.5px;
+    	font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
+
+    margin: 0 0 10px;
+    font-size: 13px;
+    line-height: 1.42857143;
+    color: #333;
+    word-break: break-all;
+    word-wrap: break-word;
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+
+}

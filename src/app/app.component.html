@@ -1,34 +1,56 @@
-<nav class="navbar navbar-inverse bg-inverse">
+<div id="myAutoNav" class="navbar navbar-default " role="navigation">
     <div class="container-fluid">
-
         <div class="navbar-header">
-            <a class="navbar-brand" href="#">myAuto V2</a>
+            <a class="navbar-brand" href="#"><img src="https://firebasestorage.googleapis.com/v0/b/logintest-a1285.appspot.com/o/myAutoico.png?alt=media&token=3868a73d-d483-4aed-bba8-c50c16eaa0ed" alt="myAutoLogo" width="100"></a>
+            <button type="button" class="navbar-toggle" (click)="isCollapsed = !isCollapsed" data-target=".navbar-menubuilder"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+            </button>
         </div>
-        <ul class="nav navbar-nav navbar-left">
+        <div class="navbar-collapse collapse" [collapse]="isCollapsed">
+            <ul class="nav navbar-nav navbar-left">
+                <li><a [routerLink]="['/news']">News</a>
+                </li>
+                <li><a (click)="g2garage()">Garage</a>
+                </li>
+                <li><a [routerLink]="['/carmeet']">Car Meets</a>
+                </li>
 
-            <li><a href="/home">Home</a></li>
-            <li><a href="/garage">Garage</a></li>
-        </ul>
-        <div *ngIf="isLoggedIn">
-            <ul class="nav navbar-nav navbar-right border-left">
-                <li><a (click)="logout()">Logout</a></li>
+                <li *ngIf="afService.email=='admin@myauto.site'"><a [routerLink]="['/prototype']">Prototypes</a>
+                </li>
             </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li><a><b>{{afService.displayName}}</b></a></li>
-                <li><a href="/profile">Profile</a></li>
-            </ul>
-        </div>
-        <div *ngIf="isLoggedIn!=true">
-            <ul class="nav navbar-nav navbar-right border-left">
-                <li><a href="/login">Login</a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="/register">Register</a></li>
-            </ul>
+
+            <div *ngIf="isLoggedIn">
+                <ul class="nav navbar-nav navbar-right border-left">
+                    <li><a (click)="logout()" href="/login">Logout</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a [routerLink]="['/profile']"><b>{{afService.displayName}}</b></a></li>
+                    <li><a [routerLink]="['/profile']">Profile</a></li>
+                </ul>
+            </div>
+            <div *ngIf="isLoggedIn!=true">
+                <ul class="nav navbar-nav navbar-right border-left">
+                    <li><a [routerLink]="['/login']">Login</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a [routerLink]="['/register']">Register</a></li>
+                </ul>
+            </div>
         </div>
     </div>
-</nav>
+</div>
+
+
+
+
+
+
 
 <div class="app-content">
     <router-outlet></router-outlet>
 </div>
+
+
+<footer>
+    <a [routerLink]="['/about']">About</a> &nbsp; &nbsp; <a (click)="topFunction()">Back to Top</a> &nbsp; &nbsp;
+    <b>© myAuto 2017</b>
+</footer>

@@ -1,0 +1,226 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            <h1><b>myAuto</b> CarMeets</h1>
+            <figure class="highlight">
+                <!-- If not signed in -->
+                <div *ngIf="afService.displayName==null">
+                    <!-- Saying need to log in to post -->
+                    <p>You need to be logged in to post.</p>
+                </div>
+                <!-- If signed in -->
+                <div *ngIf="afService.displayName!=null">
+                <!-- Add a Meet -->
+
+                    <a (click)="isCollapsed = !isCollapsed" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Add A Meet</a>
+                    <div>
+                        <div class="modal-body" (collapsed)="collapsed($event)" (expanded)="expanded($event)" [collapse]="isCollapsed" class="card card-block card-header">
+                            <h3>Meet Name</h3>
+
+                            <input type="textarea" [(ngModel)]="newMeetName">
+
+                            <br>
+                            <h3>Car Types</h3>
+                                    <select [(ngModel)]="newMeetCar">
+                                        <option value="Any">Any</option>
+                                        <option value="Tuner">Tuner</option>
+                                        <option value="Muscle">Muscle</option>
+                                        <option value="Luxury">Luxury</option>
+                                        <option value="SUV">SUV</option>
+                                        <option value="Sports/Super">Sports/Super</option>                                      
+                            </select>
+                            <br>
+                            <!-- https://www.npmjs.com/package/angular2-google-place Google Places API-->
+                            <h3>Location (Press Enter to Confirm)</h3>
+                            <input (keyup)="onKey($event)" placeholder="Press Enter to Confirm Location.." class="form-control" googleplace> 
+                            {{address}}
+                            <br>
+                            <h3>Start Time</h3>
+
+                            <input type="time" [(ngModel)]="newMeetStart">
+
+                            <br>
+                            <h3>End Time</h3>
+
+                            <input type="time" [(ngModel)]="newMeetEnd">
+
+                            <br>
+                            <h3>Meet Date</h3>
+                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="newMeetDate" required></my-date-picker>
+                            <br>
+                            <br>
+                            <button class="btn btn-primary btn-sm" (click)="sendMeet(address, newMeetStart, newMeetEnd, newMeetDate); isCollapsed = !isCollapsed">Post</button>
+
+     
+
+
+                        </div>
+                    </div>
+
+                 
+                </div>
+                <!-- Search -->
+
+                <h3>Search Meets</h3>
+                <input type="text" [(ngModel)]="meetPostsFilter.address" placeholder="Search Location">
+                <input type="text" [(ngModel)]="meetPostsFilter.meetname" placeholder="Search Name">
+
+                <label for="cardrop">Find by Car Type</label>
+                <select [(ngModel)]="meetPostsFilter.cartype" name="cardrop" id="cardrop">
+                                        <option value="Tuner">Tuner</option>
+                                        <option value="Muscle">Muscle</option>
+                                        <option value="Luxury">Luxury</option>
+                                        <option value="SUV">SUV</option>
+                                        <option value="Sports/Super">Sports/Super</option>        
+                                        <option value="">Any</option> 
+            </select>
+            </figure>
+
+             
+
+
+
+
+
+
+
+                <!-- List of Meets -->
+
+            <div id="carmeets">
+                <div id="carmeet" *ngFor="let carmeet of carmeets | async | filterBy: meetPostsFilter | paginate: { itemsPerPage: 20, currentPage: p }; let i = index;">
+                    <h3>{{carmeet.meetname}}</h3>
+                    <p>Car Type: {{carmeet.cartype}}</p>
+                    <p>Location: {{carmeet.address}}</p>
+                    <p>Date: {{carmeet.meetdate.date.day}}/{{carmeet.meetdate.date.month}}/{{carmeet.meetdate.date.year}}</p>
+                    <p>Start Time: {{carmeet.starttime}}</p>
+                    <p>End Time: {{carmeet.endtime}}</p>
+                                    <!-- If User is Logged in User or Admin -->
+
+                    <div *ngIf="afService.email==carmeet.email || afService.email=='admin@myauto.site'">
+                                                            <!-- Delete -->
+
+ <a class="btn btn-xs btn-danger" (click)="delModal.show()"><span class="glyphicon glyphicon-trash"></span> Delete</a>
+                        <div bsModal #delModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-sm">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title pull-left">Delete Confirmation?</h4>
+                                        <button type="button" class="close pull-right" aria-label="Close" (click)="delModal.hide()">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h4>{{afService.displayName}} You Are Deleting:</h4>
+                                        <h4>Location: {{carmeet.address}}</h4>
+                                        <h4>Date: {{carmeet.meetdate.date.day}}/{{carmeet.meetdate.date.month}}/{{carmeet.meetdate.date.year}}</h4>
+                                        <h4>Start Time: {{carmeet.starttime}}</h4>
+                                        <h4>End Time: {{carmeet.endtime}}</h4>
+                                        <button class="btn btn-danger btn-xs" (click)="deleteMeet(carmeet.$key)">Confirm Deletion</button>
+                                        <button class="btn btn-warning btn-xs" (click)="delModal.hide()">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                                                            <!-- Edit -->
+
+                        <button class="btn btn-warning btn-xs" (click)="carmeet.show = !carmeet.show; startedit(carmeet.meetname,carmeet.cartype,carmeet.address,carmeet.starttime,carmeet.endtime);">Edit</button>
+                        <div *ngIf="carmeet.show">
+                            <h3>Meet Name</h3>
+
+                            <input type="textarea" [(ngModel)]="oldname">
+
+                            <br>
+                            <h3>Car Types</h3>
+                                    <select [(ngModel)]="oldcar">
+                                        <option value="Any">Any</option>
+                                        <option value="Tuner">Tuner</option>
+                                        <option value="Muscle">Muscle</option>
+                                        <option value="Luxury">Luxury</option>
+                                        <option value="SUV">SUV</option>
+                                        <option value="Sports/Super">Sports/Super</option>                                      
+                            </select>
+                            <br>
+                            <h3>Location (Press Enter to Confirm)</h3>
+                            <input (keyup)="onKey($event)" placeholder="Press Enter to Confirm Location.." class="form-control" value="{{carmeet.address}}" googleplace> {{address}}
+                            <br>
+                            <h3>Start Time</h3>
+
+                            <input type="time" [(ngModel)]="oldstart" placeholder="{{carmeet.starttime}}">
+
+                            <br>
+                            <h3>End Time</h3>
+
+                            <input type="time" [(ngModel)]="oldend" placeholder="{{carmeet.endtime}}">
+
+                            <br>
+                            <br>
+                            <h3>Meet Date</h3>
+                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="newMeetDate" required></my-date-picker>
+                            <br>
+
+                            <button class="btn btn-success btn-xs" (click)="editMeet(carmeet.$key, oldname, oldcar, address, oldstart, oldend, newMeetDate)">Confirm Edit</button>
+                            <button class="btn btn-danger btn-xs" (click)="carmeet.show = !carmeet.show">Cancel</button>
+                        </div>
+                        <br>
+
+                    </div>
+                    <button class="btn btn-info btn-xs" (click)="carmeet.showcomment = !carmeet.showcomment">Show/Hide Comments</button>
+                    <div *ngIf="carmeet.showcomment">
+                        <br>
+                        <!-- Comments -->
+
+                        <div id="comments" *ngFor="let comment of meetscomments | async">
+                        <!-- Showing Comments on that Post -->
+
+                            <div *ngIf="carmeet.$key==comment.postid">
+                                {{comment.comment}}
+                                <div class="author">Posted By: {{comment.displayName}} on {{comment.timestamp | date:"medium"}} <br> <b (click)="delcomModal.show()" *ngIf="afService.email==comment.email || afService.email=='admin@myauto.site'" style="cursor: pointer;">Remove</b> </div>
+  <div bsModal #delcomModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-sm">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title pull-left">Delete Comment?</h4>
+                                        <button type="button" class="close pull-right" aria-label="Close" (click)="delcomModal.hide()">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h4>{{afService.displayName}} You Are Deleting:</h4>
+                                        <h4>Comment: {{comment.comment}}</h4>
+                                        <button class="btn btn-danger btn-xs" (click)="deleteMeetComment(comment.$key);">Confirm Deletion</button>
+                                        <button class="btn btn-warning btn-xs" (click)="delcomModal.hide()">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                            </div>
+                            
+                        </div>
+ <br>
+                                        <div *ngIf="afService.displayName!=null">
+
+                        <input type="textarea" placeholder="Enter A Comment..." class="car-model" [(ngModel)]="newMeetComment">
+                        <button class="btn btn-primary btn-xs" (click)="sendMeetComment(carmeet.$key)">Comment</button>
+                        <button class="btn btn-danger btn-xs" (click)="commentClear()">Cancel</button>
+                        <br>
+                         <br>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+<!-- Pagination -->
+             <pagination-controls align="center" (pageChange)="p = $event"></pagination-controls>
+
+
+
+        </div>
+
+
+
+
+
+
+    </div>
+</div>

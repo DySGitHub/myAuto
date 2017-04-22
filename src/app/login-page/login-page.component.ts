@@ -11,10 +11,9 @@ export class LoginPageComponent {
   public error: any;
 
   constructor(public afService: AF, private router: Router) {}
-
+//Google Sign In
   loginWithGoogle() {
     this.afService.loginWithGoogle().then((data) => {
-      // Send them to the homepage if they are logged in
       console.log(data);
               this.afService.addUserInfo();
 
@@ -22,6 +21,8 @@ export class LoginPageComponent {
 
     })
   }
+
+//Email Sign In
 
   loginWithEmail(event, email, password){
     event.preventDefault();
