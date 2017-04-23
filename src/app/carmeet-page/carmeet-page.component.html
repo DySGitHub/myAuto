@@ -174,7 +174,7 @@
 
                             <div *ngIf="carmeet.$key==comment.postid">
                                 {{comment.comment}}
-                                <div class="author">Posted By: {{comment.displayName}} on {{comment.timestamp | date:"medium"}} <br> <b (click)="delcomModal.show()" *ngIf="afService.email==comment.email || afService.email=='admin@myauto.site'" style="cursor: pointer;">Remove</b> </div>
+                                <div class="postedby">Posted By: {{comment.displayName}} on {{comment.timestamp | date:"medium"}} <br> <b (click)="delcomModal.show()" *ngIf="afService.email==comment.email || afService.email=='admin@myauto.site'" style="cursor: pointer;">Remove</b> </div>
   <div bsModal #delcomModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-sm">
                                 <div class="modal-content">

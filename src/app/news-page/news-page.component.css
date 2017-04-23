@@ -19,7 +19,7 @@ input[type='file'].button{
  border-bottom: 10px solid white;
     border-radius: 5px;
 }
-.author {
+.postedby {
     font-size: 10px;
 }
 
@@ -92,7 +92,7 @@ h1, h2, h3, h4, h5, h6, small
  border-bottom: 10px solid white;
     
 }
-.author {
+.postedby {
     font-size: 10px;
 }
 

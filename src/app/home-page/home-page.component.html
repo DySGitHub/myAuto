@@ -181,7 +181,7 @@
                         <p>{{usercar.price | currency:'EUR':true:'1.2-2'}}</p>
                     </div>
 
-                    <div class="author">
+                    <div class="postedby">
                         Posted by: {{ usercar.displayName }} on {{ usercar.timestamp | date:"medium" }}
                         <br>
 
@@ -329,7 +329,7 @@
 
                             <div *ngIf="usercar.$key==comment.postid">
                                 {{comment.comment}}
-                                <div class="author">
+                                <div class="postedby">
                                     {{comment.displayName}} @ {{comment.timestamp | date:"medium"}}
                                     <br> <b (click)="delcomModal.show()" *ngIf="afService.email==comment.email || afService.email=='admin@myauto.site'" style="cursor: pointer;">Remove</b>
                                 </div>

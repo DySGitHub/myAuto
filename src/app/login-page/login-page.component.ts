@@ -15,7 +15,7 @@ export class LoginPageComponent {
   loginWithGoogle() {
     this.afService.loginWithGoogle().then((data) => {
       console.log(data);
-              this.afService.addUserInfo();
+              this.afService.addUserToFirebase();
 
               this.router.navigate(['/garage']);
 

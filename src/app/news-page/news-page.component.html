@@ -72,7 +72,7 @@
                     </div>
                     <br>
 
-                    <div class="author">
+                    <div class="postedby">
                         Posted by: {{ newsitem.displayName }} on {{ newsitem.timestamp | date:"medium" }}
                     </div>
                     <br>
@@ -100,7 +100,7 @@
                                     <div id="comments" *ngFor="let comment of newscomments | async">
                                         <div *ngIf="newsitem.$key==comment.postid">
                                             {{comment.comment}}
-                                            <div class="author">
+                                            <div class="postedby">
                                                 {{comment.displayName}} @ {{comment.timestamp | date:"medium"}}
                                                 <br> <b (click)="deleteNewsComment(comment.$key);" *ngIf="afService.email==comment.email || afService.email=='admin@myauto.site'" style="cursor: pointer;">Remove</b>
                                             </div>

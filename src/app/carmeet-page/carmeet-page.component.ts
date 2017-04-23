@@ -37,7 +37,7 @@ export class CarMeetPageComponent implements OnInit {
      public meetscomments: FirebaseListObservable<any[]>;
 
 
-     meetPosts: any[] = this.afService.carmeets; //Used for Searching https://github.com/VadimDez/ng2-filter-pipe
+     meetPosts: any[] = this.afService.carmeets; //Used for Searching the Firebase Data (https://github.com/VadimDez/ng2-filter-pipe)
     
 
   meetPostsFilter: any = { address: '', cartype: '', meetname: ''};

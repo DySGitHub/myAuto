@@ -1,3 +1,4 @@
+//Importing the required Modules
 import { Injectable, Input} from "@angular/core";
 import { Router} from '@angular/router';
 import {    AngularFire, AuthProviders, AuthMethods, FirebaseListObservable, FirebaseObjectObservable}
@@ -17,6 +18,7 @@ declare var firebase1: any;
 
 
 @ Injectable() export class AF {
+    //Defining the Objects
     public usercars: FirebaseListObservable < any > ;
     public userlikedcars: FirebaseListObservable < any > ;
 
@@ -46,6 +48,7 @@ declare var firebase1: any;
 
     constructor(public af: AngularFire) {
         this.af.auth.subscribe(
+            //Checking Authentication
             (auth) => {
                 if (auth != null) {
                     this.registereduser = this.af.database.object('registeredUsers/' + auth.uid);
@@ -56,10 +59,7 @@ declare var firebase1: any;
 
 
 
-
-
-
-
+        //Setting the Data to the Firebase
         this.usercars = this.af.database.list('usercars', {
             query: {
                 orderByChild: 'timestamp'
@@ -78,12 +78,6 @@ declare var firebase1: any;
                 orderByChild: 'timestamp'
             }
         }).map((array) => array.reverse()) as FirebaseListObservable < any[] > ;
-
-
-
-
-
-
 
 
         this.comments = this.af.database.list('comments', {
@@ -109,13 +103,11 @@ declare var firebase1: any;
         }).map((array) => array.reverse()) as FirebaseListObservable < any[] > ;
 
 
-
         this.usercarscomments = this.af.database.list('usercars/comments', {
             query: {
                 orderByChild: 'timestamp'
             }
         }).map((array) => array.reverse()) as FirebaseListObservable < any[] > ;
-
 
 
         this.users = this.af.database.list('registeredUsers');
@@ -148,7 +140,7 @@ declare var firebase1: any;
 
 
    
-    addUserInfo() {
+    addUserToFirebase() {
         //We saved their auth info now save the rest to the db.
          this.users.update(this.userid, {
             email: this.email,
@@ -211,9 +203,10 @@ declare var firebase1: any;
 
 
 
-
+//Add Car to the System
 
     sendNews(text1, text2, text3) {
+        //Add image to System
         let storageRef = firebase1.storage().ref();
         let storage = firebase1.storage();
         for (let selectedFile of[( < HTMLInputElement > document.getElementById('file')).files[0]]) {
@@ -258,7 +251,7 @@ declare var firebase1: any;
 
 
 
-
+//Add Comment to System
     sendUserCarComment(usercarKey: string, text1) {
 
         if (text1 == null) {
@@ -436,7 +429,7 @@ declare var firebase1: any;
 
 
 
-
+//Like the User Car Function
     likeUserCar(usercarKey: string, usercardisplayName: string, usercarBrand: string, usercarModel: string, usercarLikes: string, usercarImg: string, usercarSale: string, usercarPrice: String) {
      
         var ruserKey = this.userid;
@@ -490,9 +483,7 @@ declare var firebase1: any;
 
 
 
-
-
-
+//Unlike the Car Function
   uncl(likedcarKey: string) {
    
         var ruserKey = this.userid;
@@ -539,17 +530,12 @@ declare var firebase1: any;
   
      AA.unsubscribe();
 
-
-  
-
-
-
     }
 
 
-    /* 
-    Used to Register User
-     */
+    
+    //Used to Register User
+
     registerUser(email, password) {
         console.log(email)
         return this.af.auth.createUser({
@@ -560,10 +546,10 @@ declare var firebase1: any;
 
     }
 
-    /*
-     Save User Info
-     */
-    saveUserInfoFromForm(uid, name, email) {
+    
+     //Save User Info
+     
+    SaveEmailUserToFirebase(uid, name, email) {
         return this.af.database.object('registeredUsers/' + uid).set({
             userid: uid,
             name: name,
@@ -573,9 +559,9 @@ declare var firebase1: any;
     }
 
 
-    /*
-    Logs the user in using their Email/Password combo https://github.com/angular/angularfire2/blob/master/docs/5-user-authentication.md
-     */
+    
+    //Logs the user in using their Email/Password combo (https://github.com/angular/angularfire2/blob/master/docs/5-user-authentication.md)
+     
     loginWithEmail(email, password) {
 
         return this.af.auth.login({
@@ -586,11 +572,6 @@ declare var firebase1: any;
             method: AuthMethods.Password,
         });
     }
-
-   
-
-
-
 
 
 }
